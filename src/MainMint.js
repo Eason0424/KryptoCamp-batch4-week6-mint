@@ -15,18 +15,30 @@ const MainMint = ({ accounts, setAccounts }) => {
 
   // TODO: 呼叫合約 totalSupply 方法，並寫入到變數 totalSupply
   const getNFTTotalSupply = async () => {
-
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const KryptoCampContract = new ethers.Contract(
+      KryptoCampNFTAddress,
+      kryptoCampNFTAbi,
+      provider
+    );
+    const currentSupply = await KryptoCampContract.totalSupply();
+    const amount = ethers.utils.formatUnits(currentSupply, 0);
+    setTotalSupply(amount);
   }
 
   // TODO: 呼叫 Contract mint fn
   const handleMint = async () => {
     if (window.ethereum) {
       // TODO: 1) 設定 Provider
-
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       // TODO: 2) 設定 signer
-
+      const signer = provider.getSigner();
       // TODO: 3) new Contract 實體
-
+      const KryptoCampContract = new ethers.Contract(
+        KryptoCampNFTAddress,
+        kryptoCampNFTAbi,
+        signer
+      );
 
       try {
         // TODO: 4) 呼叫合約 mint 方法
